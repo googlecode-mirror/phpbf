@@ -1,0 +1,70 @@
+/** Form elements site-wide **/
+
+.input_text, .input_password, .input_file, .input_select, .input_iselect, .input_submit, .input_button, .input_iselect_list {
+	border: 1px solid #999999;
+	background-color: #FFFFFF;
+}
+.input_text, .input_password, .input_file, .input_select, .input_iselect, .input_iselect_list {
+	width: 130px;
+}
+.input_file {
+	width: 220px;
+}
+.input_radio, .input_checkbox {
+}
+div.input {
+	display: inline;
+}
+
+
+
+/** Invalid class **/
+
+.input_invalid {
+	border-color: red;
+}
+
+/** ISELECT  **/
+
+div.input_iselect {
+	display: block;
+	width: 150px;
+	height: 1.3em;
+	margin-right:4px;
+	padding: 2px 16px 4px 4px;
+	overflow: hidden;
+	text-align: left;
+	background: #FFFFFF url(form/downarrow_grey.png) no-repeat right center;
+	cursor: pointer;
+	font-family:arial,sans-serif;
+}
+input.input_iselect_editable {
+	cursor: text;
+	width: 100%;
+	height: 100%;
+	padding: 0;
+	margin: 0;
+	border-style: none;
+}
+
+div.input_iselect_list {
+    display: none;
+    position: absolute;
+    z-index: 1000;
+    text-align: left;
+}
+   
+div.input_iselect_list a {
+    padding: 1px 3px 1px 3px;
+    display: block;
+    text-decoration: none;
+}
+
+div.input_iselect_list a.selected {
+    background-color: #DDDDDD;
+}
+div.input_iselect_list a:hover {
+    background-color: #AAAAAA;
+    color: #000000;
+}
+
