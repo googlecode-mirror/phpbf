@@ -165,7 +165,7 @@ function smarty_function_input($p, Smarty_Internal_Template $template)
 				else if ($type == 'select') $options_html .= '<option';
 				else if ($type == 'radioset') {
 					$option['class'] = 'input input_radio'.(isset($option['class'])? ' '.$option['class']:'');
-					$options_html .= '<label><input type="radio"'.$smarty->attr('name', $name).(isset($p["onchange"])? $smarty->attr('onchange', $p["onchange"]):"");
+					$options_html .= '<label><input type="radio"'.$smarty->attr('name', $name).(isset($p["onchange"])? $smarty->attr('onchange', $p["onchange"]):"").(isset($p["onchange"])? $smarty->attr('onchange', $p["onchange"]):"");
 				}
 				
 				foreach ($option as $key => $val) {
@@ -176,7 +176,7 @@ function smarty_function_input($p, Smarty_Internal_Template $template)
 				elseif ($type == 'select') $options_html .= '>'.$option['text'].'</option>';
 				elseif ($type == 'radioset') $options_html .= '/>'.$option['text'].'</label>';
 			}
-			unset($p["onchange"]);
+			unset($p["onchange"], $p["onclick"]);
 		}
 		if ($type == 'iselect') {
 			// if type is iselect, print options now and change type to normal text or hidden
