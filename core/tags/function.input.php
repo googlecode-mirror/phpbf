@@ -165,7 +165,7 @@ function smarty_function_input($p, Smarty_Internal_Template $template)
 				else if ($type == 'select') $options_html .= '<option';
 				else if ($type == 'radioset') {
 					$option['class'] = 'input input_radio'.(isset($option['class'])? ' '.$option['class']:'');
-					$options_html .= '<label><input type="radio"'.$smarty->attr('name', $name).(isset($p["onchange"])? $smarty->attr('onchange', $p["onchange"]):"").(isset($p["onchange"])? $smarty->attr('onchange', $p["onchange"]):"");
+					$options_html .= '<label><input type="radio"'.$smarty->attr('name', $name).(isset($p["onchange"])? $smarty->attr('onchange', $p["onchange"]):"").(isset($p["onclick"])? $smarty->attr('onclick', $p["onclick"]):"");
 				}
 				
 				foreach ($option as $key => $val) {
