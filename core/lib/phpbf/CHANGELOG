@@ -1,0 +1,49 @@
+CHANGELOG FOR PHPBF
+
+Version 0.7 (beta 4 ever)
+* Reorganized some files
+
+
+Version 0.6 (beta)
+
+* Changed name of parameters of a few tags
+* Finished converting all paths to RIDs
+* Modified folder class
+* Added 'is_multiple_emails' condition in form validation
+* Rewrote the contact page, now fully commented
+* Rewrite URL was modified again to bring a new way of detecting path from website root
+
+
+Version 0.5 (beta)
+
+* Files reoganized in core and additional packages
+* Rewrite URL was modified
+* All paths are now refered as Ressource ID (RID) and follow the same syntax for usgae on both server side and client side
+* Removed the 'scr' folder, now all scripts are to be placed either in root or in a custom folder
+* Some folder ID changed : 'mod' => 'modules', 'form' => 'forms', 'form_compiled' => 'forms_data'
+* Folder::load and BF::load_module now issue exception instead of fatal error when file does not exists
+* Q function was put in its own module 
+* User module ius splited into two modules, one for default usages, the other for site specific usages
+* Constructor of active records changed to remove array of preperties. Use load_from_array instead
+* Removed 'user_default_class' from config
+* In header and footer tags, attribute 'template' renamed'filed' to match the include tag file attribute
+* reset.dcss becomes static and is moved tot he Stylesheets folder 
+* Added the rewrite URL module (Set page_url_rewrite to true)
+* In config: page_default_title becomes window_title
+* plugins (Modules/Smarty_plugins) renamed tags (Tags)
+* Pages folder renamed Templates 
+* Page output module renamed template output module
+* Extension for templates becomes .tpl instead of .pg 
+* Updated to smarty 2.22
+* All db.* modules renamed to database.*
+* Browser URL to website root is now automaticly detected, and all medias are accessed with relative urls
+* Folder class can now process magic keywords (code taken from the template module)
+* Folder class modified, '$web_path' becomes '$url', added the path() method, equivalent of url() for paths
+* Sections and colosets are now managed directly by the API and not by the template module, modifications made to the API
+* Unified all package names in headers (@package and @subpackage) 
+
+
+Version 0.4 (alpha)
+
+* First working version
+* Created changelog

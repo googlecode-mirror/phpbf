@@ -1,0 +1,29 @@
+/** Error page CSS **/
+
+div.error_box {
+	width: 350px;
+	border: 1px solid #CCCCCC;
+	margin: 30px auto 30px auto;
+	background-color: #EEEEEE;
+	color: #000000;
+	padding: 0;
+	box-shadow: 0px 0px 10px 2px #EEEEEE;
+}
+div.error_box img.error_icon {
+	float: left;
+	margin: 10px;
+	width: 30px;
+}
+div.error_box div {
+	padding: 10px 10px 20px 10px;
+	text-align: center;
+	
+}
+div.error_box h2 {
+	padding: 5px;
+	margin: 0 0 5px 0;
+	color: #333333;
+	text-align: center;
+	font-size: 130%;
+	background-color: #DDDDDD;
+}
