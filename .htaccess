@@ -1,0 +1,55 @@
+####### PHPBF RECOMMENDED .HACCESS CONFIGURATION ####### 
+
+##  CHARSET  ##
+# Default charset as defined in framework configuration (UTF-8 recommended)
+AddDefaultCharset UTF-8
+
+
+##  ENABLE URL REWRITING  ##
+# Enable url rewriting (for nicer urls, disable if not supported by your host)
+#RewrriteEngine Off             # uncomment to disable
+RewriteEngine On                # uncomment to enable
+
+
+##  REWRITE BASE  ##
+# Uncomment following line if your webserver's URL
+# is not directly related to physical file paths.
+RewriteBase /
+
+
+##  REWRITE RULES  ##
+
+# STEP 1
+# Drop language prefix (unless a directory match the prefix)
+# eg. /en/... or /en_US/... or /en-US/...
+# Followed by redirect (L flag used)
+# Detected locale will be available in $_GET['detected_locale']
+# This can only be done once, and will the skipped on following redirections with query containing 'detected_locale='
+RewriteCond     %{REQUEST_FILENAME}     !-f
+RewriteCond     %{REQUEST_FILENAME}     !-d
+RewriteCond     %{QUERY_STRING}         !(^|&)detected_locale=
+RewriteRule    ^([a-z]{2}(?:(?:_|-)[A-Z]{2})?)/(.*)$   $2?detected_locale=$1  [NC,QSA,L]
+
+# STEP 2
+# If file or directory does not exists, let index.php handle request
+# Followed by redirect (L flag used), so that step 3 is processed alone
+RewriteCond     %{REQUEST_FILENAME}     !-f
+RewriteCond     %{REQUEST_FILENAME}     !-d
+RewriteRule     ^(.*)$          index.php/$1 [QSA,NC,L]
+
+
+##  OTHER USEFULL CONFIG  ##
+
+
+# Force usgae of PHP if necessary
+#SetEnv PHP_VER 5
+#AddType x-mapp-php5 .php
+
+# Follow links (unix-based OS only)
+#Options +FollowSymLinks
+
+# To append extention automaticly, MultiViews should be activated
+# (eg.  foo -> foo.php)
+#Options +MultiViews
+
+
