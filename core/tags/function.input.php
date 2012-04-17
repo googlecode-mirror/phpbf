@@ -231,7 +231,7 @@ function smarty_function_input($p, Smarty_Internal_Template $template)
 		}*/
 		
 		BF::gr("/tags/block.js.php")->load_once();
-		$load_js = smarty_block_js(array('src' => "form.js"), "", $template);
+		$load_js = smarty_block_js(array('src' => "lib/form.js"), "", $template);
 		$html .= smarty_block_js(array(), 'if (afcUtils == undefined) document.write('.str_replace('/', '\\/', Q($load_js)).');', $template);
 		$html .= smarty_block_js(array(), $form->get_js($name, $id), $template);
 	}
