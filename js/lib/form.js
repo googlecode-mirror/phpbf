@@ -310,7 +310,7 @@ afcUtils = {
 			if (prop['banned_chars']) input[0].value = eval('input[0].value.replace(/['+prop.banned_chars.value.replace(/([\-.*+?^=!:${}()|[\]\/\\])/g, '\\$1')+']/gi,"")');
 			if (prop['max_length'] && input[0].value.length > prop.max_length.value) input[0].value = input[0].value.substring(0, prop.max_length.value);
 			
-			afcUtils.event.keyup(e);
+			afcUtils.events.keyup(e);
 		}
 	},
 	
