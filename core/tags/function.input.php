@@ -88,7 +88,7 @@ function smarty_function_input($p, Smarty_Internal_Template $template)
 				$p['properties'][$param]['invalid_message'] = BF::gl()->tl_tag(
 					'form.error_'.$param
 					.'|'.$value
-					.'|'.ucfirst(isset($p['title'])? $p['title'] : (isset($p['alt'])? $p['alt'] : $name))
+					.'|'.ucfirst(isset($p['title'])? $p['title'] : ($form->get_title($name)? $form->get_title($name) : (isset($p['alt'])? $p['alt'] : $name)))
 				);
 			}
 			
