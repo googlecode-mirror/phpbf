@@ -72,7 +72,7 @@ abstract class BF_DB implements BF_DB_interface {
 	
 	public function add ($table, $fields) {
 		if (!is_array($fields)) throw new exception('List of fields to add must be an array');
-		$query_str = "INSERT INTO ".BF::gt($table)." (".implode(', ', array_keys($fields)).") VALUES (".implode(', ', array_map('Q', $fields)).")";
+		$query_str = "INSERT INTO ".BF::gt($table)." (".implode(', ', array_keys($fields)).") VALUES (".implode(', ', array_map(array($this, 'Q'), $fields)).")";
 		$this->query($query_str);
 		return $this->last_insert_id();
 	}
