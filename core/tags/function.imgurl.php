@@ -11,7 +11,7 @@
  */
 
 
-function smarty_function_url($p, Smarty_Internal_Template $template)
+function smarty_function_imgurl($p, Smarty_Internal_Template $template)
 {
 	return BF::gr($p["src"], 'img')->url();
 }
