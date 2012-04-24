@@ -261,7 +261,7 @@ class BF_form {
 	 */
 	function get_title($field) {
 	 	$field = $this->get_field($field);
-	 	return isset($field['title'])? $field['title'] : (isset($field['alt'])? $field['alt'] : $field['name']);
+	 	return isset($field['title'])? $field['title'] : (isset($field['alt'])? $field['alt'] : (isset($field['name'])? $field['name']:""));
 	}
 	
 	/**
