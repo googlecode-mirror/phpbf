@@ -148,10 +148,10 @@ function smarty_function_input($p, Smarty_Internal_Template $template)
 		
 		if (isset($p['options']) && is_array($p['options'])) {
 			foreach ($p['options'] as $option) {
-				if (!is_array($option)) $option = Array('value'=>$option);
+				if (!is_array($option)) $option = array('value'=>$option);
 				if (!isset($option['value'])) $option['value'] = '';
 				if (!isset($option['text'])) $option['text'] = isset($option['label'])? $option['label'] : $option['value'];
-				if ((isset($option['selected']) && $option['selected']) || (isset($option['checked']) && $option['checked']) || ((string)$p['value'] === (string)$option['value']) && !$selected_option) {
+				if ((isset($option['selected']) && $option['selected']) || (isset($option['checked']) && $option['checked']) || (isset($p['value']) && (string)$p['value'] === (string)$option['value']) && !$selected_option) {
 					if ($type == 'radioset') $option['checked'] = 'checked';
 					else $option['selected'] = 'selected';
 					$p['value'] = $option['value'];
