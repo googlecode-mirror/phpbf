@@ -41,7 +41,7 @@ class BF_output_ajax {
 	
 	public function send($message = '') {
 		if (!$this->content_type) $this->content_type = 'text/plain';
-		BF::send_content_type($this->content_type);
+		BF_output::send_content_type($this->content_type);
 		return print $message;
 	}
 	
@@ -58,8 +58,9 @@ class BF_output_ajax {
 	/**
 	 * Show error
 	 */
-	public function show_error($type, $message, $title, $debug_message = false) {
-		$this->send_js("alert(\n".str_replace("\n", '\n', Q($title."\n\n".$message.($debug_message? "\n\nDebug: ".$debug_message:''), Q_STRING))."\n);");
+	public function show_error($type, $message, $title, $debug = false) {
+		$this->send_js("alert(\n".str_replace("\n", '\n', Q($title."\n\n".$message.($debug? "\n\nDebug: ".$debug:''), Q_STRING))."\n);");
+		die();
 	}
 	
 }
