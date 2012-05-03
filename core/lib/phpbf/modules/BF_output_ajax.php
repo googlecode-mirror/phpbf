@@ -24,6 +24,9 @@ class BF_output_ajax {
 	
 	public $content_type = null;
 	
+	public function __construct() {
+		BF::register_error_output_callback (array($this, "show_error"));
+	}
 	
 	public function send_js($content = '') {
 		if (!$this->content_type) $this->content_type = 'text/javascript';
@@ -31,7 +34,7 @@ class BF_output_ajax {
 	}
 	public function send_json($var = '') {
 		if (!$this->content_type) $this->content_type = 'application/json';
-		return $this->close(Q($var,Q_JSON));
+		return $this->close(str_replace("\\'", "'", Q($var,Q_JSON)));
 	}
 	public function send_html($html = '') {
 		if (!$this->content_type) $this->content_type = 'text/html';
