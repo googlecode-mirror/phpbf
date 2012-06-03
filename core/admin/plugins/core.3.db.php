@@ -9,7 +9,7 @@ config::reg_section("db", array("title" => "Database"));
 
 config::reg_subsection("db", "connections", array("title" => "Database connections"));
 
-config::reg_subsection("db", "tables", array("title" => "Database tables"));
+//config::reg_subsection("db", "tables", array("title" => "Database tables"));
 
 
 //// connections
@@ -57,7 +57,7 @@ function config_db_table_save ($field_id, $input, &$conf) {
 }
 
 /// tables
-
+/*
 config::reg_field("db", "tables", "tables", array(
 	"title" => "Tables",
 	"type" => "table",
@@ -102,4 +102,4 @@ function config_tables_table_save ($field_id, $input, &$conf) {
 		}
 	}
 	$conf[$field_id] = $output;
-}
+}*/
