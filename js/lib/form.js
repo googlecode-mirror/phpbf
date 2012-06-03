@@ -351,12 +351,12 @@ afcUtils = {
 				params.valid = eval(params.value)(this.input); 
 				break;
 			case 'custom_callback' : 
-				if (delay > 0) { // if not there is no time to check
+				//if (delay > 0) { // if not there is no time to check
 					params.valid = true;
 					eval(params.value)(input, function(valid) { 
 						afcUtils.callback(input, valid);
 					});
-				}
+				//}
 				break;
 			case 'reg_match' : params.valid = eval('afcUtils.trim(input).match('+params.value+') != null'); break;
 			case 'is_int' : params.valid = afcUtils.trim(input).match(/^[0-9]*$/) != null; break;
@@ -372,10 +372,10 @@ afcUtils = {
 				else params.valid = (input[0].value <= params.value);
 				break;
 			case 'is_same_as' : 
-				var other = $(params.value);
+				var other = $("#"+params.value);
 				if (!other) params.valid = false;
 				else {
-					params.valid = input[0].value == other.value; 
+					params.valid = input[0].value == other.val(); 
 					if (!other.data('afc') || !other.data('afc').properties['check_other']) other.afc({check_other: {value:input}});
 				}
 				break;
