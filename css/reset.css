@@ -1,49 +1,6 @@
-/*
-YUI 3.4.1 (build 4118)
-Copyright 2011 Yahoo! Inc. All rights reserved.
-Licensed under the BSD License.
-http://yuilibrary.com/license/
-*/
-/*
-	TODO will need to remove settings on HTML since we can't namespace it.
-	TODO with the prefix, should I group by selector or property for weight savings?
-*/
-html{
-	color:#000;
-	background:#FFF;
-}
-/*
-	TODO remove settings on BODY since we can't namespace it.
-*/
-/*
-	TODO test putting a class on HEAD.
-		- Fails on FF. 
-*/
-body,
-div,
-dl,
-dt,
-dd,
-ul,
-ol,
-li,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-pre,
-code,
-form,
-fieldset,
-legend,
-input,
-textarea,
-p,
-blockquote,
-th,
-td {
+/* RESET ALL CSS */
+
+body,div,dl,dt,dd,ul,ol,li,pre,form,fieldset,input,textarea,p,blockquote,th,td { 
 	margin:0;
 	padding:0;
 }
@@ -51,75 +8,37 @@ table {
 	border-collapse:collapse;
 	border-spacing:0;
 }
-fieldset,
-img {
+fieldset,img { 
 	border:0;
 }
-/*
-	TODO think about hanlding inheritence differently, maybe letting IE6 fail a bit...
-*/
-address,
-caption,
-cite,
-code,
-dfn,
-em,
-strong,
-th,
-var {
-	font-style:normal;
-	font-weight:normal;
-}
-
-ol,
-ul {
+ol,ul {
 	list-style:none;
 }
-
-caption,
-th {
+caption,th {
 	text-align:left;
 }
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-	font-size:100%;
-	font-weight:normal;
-}
-q:before,
-q:after {
+q:before,q:after {
 	content:'';
 }
-abbr,
-acronym {
-	border:0;
-	font-variant:normal;
-}
-/* to preserve line-height and selector appearance */
-sup {
-	vertical-align:text-top;
-}
-sub {
-	vertical-align:text-bottom;
-}
-input,
-textarea,
-select {
-	font-family:inherit;
-	font-size:inherit;
-	font-weight:inherit;
-}
-/*to enable resizing for IE*/
-input,
-textarea,
-select {
-	*font-size:100%;
-}
-/*because legend doesn't inherit in IE */
-legend {
-	color:#000;
+abbr,acronym { border:0;
 }
 
+/* BODY & GENERAL */
+
+body,span,td,th,p,a,table,input,option,select,textarea,button,label {
+	font-family: arial,helvetica,clean,sans-serif;
+	font-size: 100%;
+	color: #000000;
+}
+body {
+	font-size: 12px;
+	cursor: default;
+}
+a, a:link, a:active, a:visited {
+	color : #000099;
+	cursor: pointer;
+	text-decoration: none;
+}
+a:hover {
+	color : #0000FF;
+}
