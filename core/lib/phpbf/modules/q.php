@@ -9,7 +9,7 @@
 * Q - Quoting module
 * @file q.php
 * @package PHPBasicFramework
-* @version 0.5
+* @version 0.7
 * @author L. Minghetti
 * @date Started on the 2009-06-25
 */
@@ -23,7 +23,9 @@ if (!defined('C_SECURITY')) exit;
  
 /**
  * Function to quote a variable into a string. Depending on flags, quotes (double by default) will be added
- * @param	int 	$flags [optional default Q_ALL] :
+ * @param	int/string 	$flags [optional default Q_ALL] :
+ * IF flag is a string : SQL quoting for given class name (based on what is required from database used)
+ * IF flag is int : 
  * For value === NULL or value === ''
  * 		- if Q_NULL => 'null'
  * 		- if Q_STRING => '""'
@@ -57,6 +59,8 @@ if (!defined('C_SECURITY')) exit;
  * If could not be determined, or only Q_NULL is set, fatal error is thrown
  */
 function Q($value, $flags = Q_ALL) {
+	
+	if (is_string($flags)) return BF::gdb($flags::$db)->Q($value);
 	
 	if ($flags <= Q_NULL) throw new exception('Invalid flag passed to Q');
 	// array and objects

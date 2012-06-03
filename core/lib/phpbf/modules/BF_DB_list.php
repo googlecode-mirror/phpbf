@@ -84,7 +84,7 @@ class BF_DB_list implements Iterator, ArrayAccess, Countable
 		}
 		
 		// built query
-		$query_str = "SELECT ".$fields." FROM ".BF::gt($class::$table);
+		$query_str = "SELECT ".$fields." FROM ".$class::$table;
 		if ($condition != NULL) {
 			$query_str .= " WHERE ".$condition;
 		}
