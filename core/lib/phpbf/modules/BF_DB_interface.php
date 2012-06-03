@@ -104,7 +104,7 @@ interface BF_DB_interface {
 
 	/**
 	 * Count a number of results from query
-	 * @param	mixed	$table : table alias. Can also be an array of tables. Each must be in the form 'tablealias as mytable'
+	 * @param	mixed	$table : name of table, can also be in the form 'tablealias as mytable, ...'
 	 * @param 	string	$condition [optional default NULL] : SQL query condition. If you need to refer to a field of a particular table, define table as 'tablealias as mytable' and use 'mytable.field' in the condition instead
 	 * @param	string	$extra [optional default NULL] : to be added at the end of the query. For example : "GROUP BY field"
 	 * @return	int		Number of results
@@ -113,7 +113,7 @@ interface BF_DB_interface {
 	
 	/**
 	 * Set some value in database where condition's true
-	 * @param	string	$table : table alias.
+	 * @param	string	$table : table name.
 	 * @param 	string	$condition [optional default NULL] : SQL query condition
 	 * @param	array	$fields : Associative array of all fields to set in DB. You may use names in the form : "tablealias.field as field", table name's will then be converted to real tables' names as defined in config file.
 	 * @param	bool	$force [optional default false] : If force is true, will try to insert entry if it does not exists
@@ -132,7 +132,7 @@ interface BF_DB_interface {
 	
 	/**
 	 * Add multiple entry in database
-	 * @param	string	$table : a table alias
+	 * @param	string	$table : a table name
 	 * @param	array	$columns : List of all columns to fill
 	 * @param	array	$entries : Two dimmension array : List of array of values to add in each columns. Must respect order of $columns.
 	 * @return	int 	ID of last entry made on success, false otherwise
@@ -141,7 +141,7 @@ interface BF_DB_interface {
 	
 	/**
 	 * Delete entries from DB where condition is true
-	 * @param	string	$table : table alias
+	 * @param	string	$table : table name
 	 * @param 	string	$condition : SQL query condition
 	 * @return	bool	true on success, false otherwise
 	 * @warning	Condition values taken from a user input need to be quoted using Q for security issue

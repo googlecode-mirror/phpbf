@@ -42,7 +42,7 @@ abstract class BF_DB implements BF_DB_interface {
 
 	public function count ($table, $condition = NULL, $extra = NULL) {
 		// built query with or without any conditions
-		$query_str = "SELECT count(*) as num FROM ".BF::gt($table);
+		$query_str = "SELECT count(*) as num FROM ".$table;
 		if ($condition != null) $query_str .= " WHERE ".$condition;
 		// add extra
 		if ($extra != NULL) $query_str .= " ".$extra;
@@ -61,7 +61,7 @@ abstract class BF_DB implements BF_DB_interface {
 				default : throw new exception('The $force parameter may not be set to true if there are more than one entry matching condition in the table. Condition : '.$condition, __FILE__,__LINE__);
 			}
 		}
-		$query_str = "UPDATE ".BF::gt($table)." SET ";
+		$query_str = "UPDATE ".$table." SET ";
 		if (!is_array($fields)) throw new exception('List of fields to update must be an array');
 		foreach ($fields as $key => $val) {
 			$query_str .= $key." = ".$this->Q($val).", ";
@@ -72,7 +72,7 @@ abstract class BF_DB implements BF_DB_interface {
 	
 	public function add ($table, $fields) {
 		if (!is_array($fields)) throw new exception('List of fields to add must be an array');
-		$query_str = "INSERT INTO ".BF::gt($table)." (".implode(', ', array_keys($fields)).") VALUES (".implode(', ', array_map(array($this, 'Q'), $fields)).")";
+		$query_str = "INSERT INTO ".$table." (".implode(', ', array_keys($fields)).") VALUES (".implode(', ', array_map(array($this, 'Q'), $fields)).")";
 		$this->query($query_str);
 		return $this->last_insert_id();
 	}
@@ -81,7 +81,7 @@ abstract class BF_DB implements BF_DB_interface {
 		if (count($columns) == 0) throw new exception('To add multiple entries you must have at least one columns definied');
 		if (count($entries) == 0) return false;
 		
-		$query_str = "INSERT INTO ".BF::gt($table)." (".implode(', ', $columns).") VALUES";
+		$query_str = "INSERT INTO ".$table." (".implode(', ', $columns).") VALUES";
 		
 		$query_entries = Array();
 		foreach ($entries as $entry) {
@@ -94,7 +94,7 @@ abstract class BF_DB implements BF_DB_interface {
 	}
 	
 	public function del ($table, $condition) {
-		$this->query("DELETE FROM ".BF::gt($table)." WHERE ".$condition);
+		$this->query("DELETE FROM ".$table." WHERE ".$condition);
 		return $this->affected_rows() >= 1;
 	}
 	

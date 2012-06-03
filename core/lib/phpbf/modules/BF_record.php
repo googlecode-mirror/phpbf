@@ -29,7 +29,7 @@ abstract class BF_record {
 
 
 	/**
-	 * The alias of the table holding the object's data (can be multiple tables in an array)
+	 * Name of the table holding the object's data (can be multiple tables with alias separated by commas)
 	 * @var 	mixed 
 	 */
 	static public $table;
@@ -84,22 +84,31 @@ abstract class BF_record {
 	protected $_db = NULL;
 	
 	/**
-	 * Extra fields to load but not defined in the config file
+	 * Fields to load but not defined in the config file
 	 * @var		array[string]
 	 */
-	protected $_extra_fields = array();
+	protected $_fields = array();
 	
 	/**
 	 * Contructor
 	 * @param 	string 		$class : Name of the table holding the object's data
 	 * @param	int		$id [optional default NULL] : Identifier of the element
+	 * @param	mixed		$fields [optional default NULL] : List of fields to load, or FALSE for default as defined in class, NULL for all fields, or string (eg. "*")
 	 * @return 	void
 	 */
-	public function __construct($id = NULL)
+	public function __construct($id = NULL, $fields = false)
 	{
 		$class = get_class($this);
 		$this->_class = $class;
-		$this->_db = BF::gdb($class::$db);
+		
+		if (BF::gdb($class::$db) != null) {
+			$this->_db = BF::gdb($class::$db);
+		} else {
+			$this->_db = null;
+		}
+		
+		$this->_fields = $fields === false? $class::$default_fields : $fields;
+		
 		$this->_id = $id;
 	}
 	
@@ -147,20 +156,21 @@ abstract class BF_record {
 			$class = $this->_class;
 			
 			// fields to load
-			if (!is_array($class::$default_fields)) {
-				// all fields
+			if ($this->_fields === null) {
 				$fields = "*";
+			} elseif (is_string($this->_fields)) {
+				$fields = $this->_fields;
+			} elseif (is_array($this->_fields)) {
+				$fields = implode(', ', $this->_fields);
 			} else {
-				$fields_array = $class::$default_fields;
-				if (count($this->_extra_fields)>0) {
-					$fields_array = array_unique(array_merge($fields_array, $this->_extra_fields));
-				}
-				$fields = implode(', ', $fields_array);
+				throw new exception("Invalid list of fields for model ".$class);
 			}
 			// perfom query
-			$data = $this->_db->get_first("SELECT ".$fields." FROM ".BF::gt($class::$table)." WHERE ".$class::$id_field." = ".$this->_db->Q($this->_id));
+			$data = $this->_db->get_first("SELECT ".$fields." FROM ".$class::$table." WHERE ".$class::$id_field." = ".$this->Q($this->_id));
 			if (is_array($data)) {
 				$this->load_from_array($data);
+			} else {
+				$this->_data = false;
 			}
 		}
 		return is_array($this->_data);
@@ -190,17 +200,17 @@ abstract class BF_record {
 	public function save($force = false)
 	{
 		$class = $this->_class;
-		if (is_array($class::$table)) throw new BF_exception("Active records coming from multiple tables cannot be updated.");
+		if (!$this->_db) throw new BF_exception("Active records not coming from database cannot be updated.");
+		if (strpos($class::$table, ",") !== false) throw new BF_exception("Active records coming from multiple tables cannot be updated.");
 		
 		if ($force == true && ($this->_id == null || !$this->exists())) return $this->add();
 		elseif ($this->_id == null) return false;
 		
 		if (count($this->_data_mod) == 0) return true;		
 		
-		if ($this->_db->set($class::$table, $class::$id_field.' = '.$this->_db->Q($this->_id), $this->_data_mod))
+		if ($this->_db->set($class::$table, $class::$id_field.' = '.$this->Q($this->_id), $this->_data_mod))
 		{
 			$this->_data = is_array($this->_data)? array_merge($this->_data, $this->_data_mod) : $this->_data_mod;
-			$this->_id = $this->_data[$class::$id_field];
 			$this->_data_mod = array();
 			return true;
 		} else return false;
@@ -225,12 +235,14 @@ abstract class BF_record {
 				return call_user_func(Array($this, '__get_'.$field));
 			} elseif ($this->_data === false) {
 				return null;
-			} else {
-				$this->add_field($field);
+			} elseif (is_array($this->_fields)) {
+				$this->_fields[] = $field;
 				$this->load(true);
-				if (!array_key_exists($field, $this->_data)) {
+				if (!is_array($this->_data) || !array_key_exists($field, $this->_data)) {
 					return null;
 				}
+			} else {
+				return null;
 			}
 		}
 		return $this->_data[$field];
@@ -270,12 +282,15 @@ abstract class BF_record {
 	public function add ()
 	{
 		$class = $this->_class;
+		if (!$this->_db) throw new BF_exception("Active records not coming from database cannot be added.");
+		if (strpos($class::$table, ",") !== false) throw new BF_exception("Active records coming from multiple tables cannot be added.");
 		if ($class::$table == NULL) return false;
 		$new_id = $this->_db->add($class::$table, $this->_data_mod);
 		if ($new_id)
 		{
 			$this->_data = $this->_data_mod;
-			if (!isset($this->_data['id'])) $this->_id = $this->_data['id'] = $new_id;
+			if (!isset($this->_data[$class::$id_field])) $this->_data[$class::$id_field] = $new_id;
+			$this->_id = $this->_data[$class::$id_field];
 			$this->_data_mod = Array();
 			return $new_id;
 		} else {
@@ -290,20 +305,24 @@ abstract class BF_record {
 	public function del()
 	{
 		$class = $this->_class;
-		if ($class::$table == NULL) return false;
-		if ($this->_db->del($class::$table, $class::$id_field.' = '.$this->_db->Q($this->_id))) {
+		if (!$this->_db) throw new BF_exception("Active records not coming from database cannot be deleted.");
+		if (strpos($class::$table, ",") !== false) throw new BF_exception("Active records coming from multiple tables cannot be deleted.");
+		if ($this->_db->del($class::$table, $class::$id_field.' = '.$this->Q($this->_id))) {
 			$this->_data_mod = Array();
 			return true;
 		} else return false;
 	}
 	
 	/**
-	 * Add an extra field to be loaded on firt query
-	 * @param	string $field : Name of field to be added
+	 * Quote value according to DB requirements
+	 * @param	string $value : Value to be quoted
+	 * @return string quoted value (including surrounding quotes)
 	 */
-	public function add_field($field) {
-		$this->_extra_fields[] = $field;
+	public function Q($value) {
+		return $this->_db->Q($value);
 	}  
+	 
+	 
 }
 
 ?>

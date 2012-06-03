@@ -368,34 +368,28 @@ class BF {
 	
 	/**
 	* List objects that match condition
-	* @param	string	$class_name : Name of table alias = class name of objects to be listed
+	* @param	string	$class_name : model class name of objects to be listed
 	* @param	string	$condition [optional default NULL] : SQL query condition
 	* @param	string	$extra [optional default NULL] : append some commands at the end of the SQL query (such as ORDER BY, LIMIT)
 	* @return	array[user object]
 	*/
 	public static function glist($class_name, $condition = NULL, $extra = NULL) {
-		//return BF::gdb(BF::gc('tables', $class_name, 0))->get($class_name, $condition, $extra, NULL, $class_name);
 		BF::load_module("BF_DB_list");
 		BF::load_model($class_name);
 		return new BF_DB_list($class_name, $condition, $extra);
 	}
 	
 	/**
-	 * Function that returns a table real name of given table alias
-	 * @param	string	$string : Table alias. Must be defined in the config file.
-	 * 					Can also be given as 'alias as t' or 'alias.afield' where 'alias' is the alias of the table
-	 * 					May be an array of alias, and will return each, replced by real table name, and separated by commas ', '
-	 * @return	string	Real name of the table
-	 */
-	public static function gt($string) {
-		if (is_array($string)) return implode(", ", array_map(array('BF', 'gt'), $string));
-		$string = trim($string);
-		// if format is : 'alias as t'
-		if (strpos($string, " ")) return BF::gc('tables', substr($string, 0, strpos($string, " "))).substr($string, strpos($string, " "));
-		// if format is : 'alias.afield'
-		if (strpos($string, ".")) return BF::gc('tables', substr($string, 0, strpos($string, "."))).substr($string, strpos($string, "."));
-		// if format is : 'alias'
-		return BF::gc('tables', $string);		
+	* Count objects that match condition
+	* @param	string	$class_name : model class name of objects to be counted
+	* @param	string	$condition [optional default NULL] : SQL query condition
+	* @param	string	$extra [optional default NULL] : append some commands at the end of the SQL query (such as LIMIT)
+	* @return	int
+	*/
+	public static function gcount($class_name, $condition = NULL, $extra = NULL) {
+		BF::load_module("BF_DB_list");
+		BF::load_model($class_name);
+		return BF::gdb($class_name::$db)->count($class_name::$table, $condition, $extra);
 	}
 	
 	/**
@@ -408,8 +402,8 @@ class BF {
 		static $user = null;
 		if ($set !== null) return $user = $set;
 		if ($user === null) {
-			BF::load_module('user');
-			$user = BF_get_logged_user();
+			BF::load_model('user');
+			$user = user::get_logged_user();
 		}
 		return $user;
 	}
