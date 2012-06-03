@@ -14,7 +14,7 @@
 		<br/>
 		<br/>
 		<br/>
-		<a href="#" onclick="history.go(-1);">Retour</a>
+		<a href="#" onclick="history.go(-1);">Return</a>
 	</div>
 </div>
 <pre>{$debug}</pre>
