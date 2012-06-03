@@ -176,8 +176,10 @@ function smarty_function_input($p, Smarty_Internal_Template $template)
 				elseif ($type == 'select') $options_html .= '>'.$option['text'].'</option>';
 				elseif ($type == 'radioset') $options_html .= '/>'.$option['text'].'</label>';
 			}
-			unset($p["onchange"], $p["onclick"]);
+			
 		}
+		
+		if ($type == 'iselect' || $type == 'radioset') unset($p["onchange"], $p["onclick"]);
 		if ($type == 'iselect') {
 			// if type is iselect, print options now and change type to normal text or hidden
 			$html .= $options_html.'</div>';

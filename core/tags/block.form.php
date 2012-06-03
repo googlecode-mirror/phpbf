@@ -25,7 +25,8 @@ function smarty_block_form($p, $content, Smarty_Internal_Template $template, &$r
 		$smarty = $template->smarty;
 		// look up form data
 		BF::load_module('BF_form');
-		$form = gform(isset($p['data'])? $p['data'] : null);
+		
+		$form = gform(isset($smarty->_tag_stack[0][1]['data'])? $smarty->_tag_stack[0][1]['data'] : null);
 
 		if (!isset($p['method'])) $p['method'] = $form->method;
 		if (!isset($p['id']) && isset($p['name'])) $p['id'] = $p['name'];
