@@ -86,7 +86,7 @@ $('#element').afc('destroy');
 					var prop = data.properties || {};
 				
 					// do not perform check on disabled form fields
-					if ($this.disabled) return true;
+					if ($this.attr('disabled')) return true;
 					if ($(this).parents(":hidden").length > 0) return true;
 					// trim white spaces on submit
 					if (onSubmit) $this.value = afcUtils.trim($this);

@@ -201,9 +201,9 @@ function smarty_function_input($p, Smarty_Internal_Template $template)
 	// append all other params
 	$reserved = array('properties','options','label','type','form_data');
 	if ($type == 'textarea') $reserved[] = 'value';
-	if ($type == 'checkbox' && isset($p['value']) && !isset($p['checked'])) {
-		if ($p['value']) $p['checked'] = 'checked';
-	}
+	//if ($type == 'checkbox' && isset($p['value']) && !isset($p['checked'])) {
+	//	if ($p['value']) $p['checked'] = 'checked';
+	//}
 	foreach ($p as $key => $val) {
 		if ($key != '' && !in_array($key, $reserved)) {
 			$html .= $smarty->attr($key, $val);
