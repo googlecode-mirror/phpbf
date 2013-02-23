@@ -70,8 +70,8 @@ function Q($value, $flags = Q_ALL) {
 			$parts = array();
 			//Find out if the given array is a numerical array
 			$is_list = (0 !== array_reduce(array_keys($value), 'Q_callbackReduceNotAssociativeArray', 0));
-		    foreach($value as $key => $val) $parts[] = ($is_list? '':'"' . $key . '":').Q($val, $flags);
-			return str_replace("\n", "\\n", $is_list? '[' . implode(',',$parts) . ']' : '{' . implode(',',$parts) . '}');
+		    	foreach($value as $key => $val) $parts[] = ($is_list? '':'"' . $key . '":').Q($val, $flags);
+			return str_replace(array("\n", "\t"), array("\\n", "\\t"), $is_list? '[' . implode(',',$parts) . ']' : '{' . implode(',',$parts) . '}');
 		} elseif ($flags & Q_ARRAY) {
 			$value = print_r($value, true);
 		} else throw new exception('Calling quote on an array or object without Q_ARRAY flag set');
