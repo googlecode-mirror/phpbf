@@ -275,7 +275,8 @@ class BF_locale {
 	 */
 	private function parse_country($locale, $lang = null) {
 		$locale = trim($locale);
-		if (strlen($locale) == 2) $country = $locale;
+
+		$country = $locale;
 		if (strlen($locale) >= 5) $country = strtoupper(substr($locale, 3, 2));
 		if (strtoupper($country) != $country) return null;
 		if ($lang) return $this->lang_country_match($lang, $country)? $country : null;
