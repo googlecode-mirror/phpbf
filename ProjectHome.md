@@ -1,0 +1,1 @@
+PhpBF is a Smarty-based PHP5 Framework allowing faster and more robust web development without compromising performance and flexibility. It deals with common tasks such as DB access, globalization, and implements the MVC pattern in a clean file structure.
